@@ -69,10 +69,12 @@
       console.log(i)
     } %>
 
+   <% if(pages>4){ %>
     <% if(Number(current) !== pages){ %>
       <li class="page-item"><a class="page-link" href="/dashboard?page=<%= pages %>">last</a></li>
       <% }else{ %>
      <li class="page-item disabled"><a class="page-link" href="">last</a></li>  
+      <% } %>
       <% } %>
     </ul>
   </nav>
