@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 const dashboard = async (req, res) => {
   const userId = new mongoose.Types.ObjectId(req.user.id);
-  let perPage = 8;
+  let perPage = 3;
   let page = req.query.page || 1;
   const locals = {
     title: "dashboard",
@@ -63,6 +63,25 @@ const items = async (req, res) => {
   }
 };
 
+const addItem = async (req, res) => {
+  res.render("dashboard/add.ejs", {
+    layout: "../views/layouts/dashboard.ejs",
+  });
+};
+
+const addItemsubmit = async (req, res) => {
+  try {
+    const newNotes = await notes.create({
+      user: req.user.id,
+      title: req.body.title,
+      body: req.body.body,
+    });
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const update = async (req, res) => {
   try {
     const updatedData = await notes
@@ -86,25 +105,6 @@ const deleteItem = async (req, res) => {
     const deleteItems = await notes
       .deleteOne({ _id: req.params.id })
       .where({ user: req.user.id });
-    res.redirect("/dashboard");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const addItem = async (req, res) => {
-  res.render("dashboard/add.ejs", {
-    layout: "../views/layouts/dashboard.ejs",
-  });
-};
-
-const addItemsubmit = async (req, res) => {
-  try {
-    const newNotes = await notes.create({
-      user: req.user.id,
-      title: req.body.title,
-      body: req.body.body,
-    });
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
