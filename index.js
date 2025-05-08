@@ -34,6 +34,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(expressEjsLayouts);
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/main");
 
